@@ -1,51 +1,73 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto bg-[#1c252d] border border-gray-800 rounded-lg overflow-hidden shadow-2xl">
+    <div class="max-w-4xl mx-auto bg-[#1c252d] border border-gray-800 rounded-lg overflow-hidden shadow-2xl">
 
-    <div class="p-8 flex flex-col md:flex-row gap-8 items-start border-b border-gray-800">
+        <div class="p-8 flex flex-col md:flex-row gap-8 items-start border-b border-gray-800">
 
-        <div class="w-full md:w-64 aspect-[2/3] bg-slate-950 rounded-md overflow-hidden border border-gray-700/50 flex-shrink-0 shadow-lg">
-            <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" class="w-full h-full object-cover">
-        </div>
+            <div class="w-full md:w-64 aspect-[2/3] bg-slate-950 rounded-md overflow-hidden border border-gray-700/50 flex-shrink-0 shadow-lg">
+                <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" class="w-full h-full object-cover">
+            </div>
 
-        <div class="flex-grow space-y-4">
-            <div>
+            <div class="flex-grow space-y-4">
+                <div>
                 <span class="text-xs bg-slate-900 text-gray-400 px-2.5 py-1 rounded border border-gray-800 font-mono uppercase tracking-widest">
                     {{ movie.genre }}
                 </span>
-                <h1 class="text-4xl font-black text-white tracking-tight mt-2">{{ movie.title }}</h1>
-                <p class="text-sm text-gray-400 mt-1">
-                    Directed by
-                    <a href="{% url 'director_detail' movie.director.pk %}" class="text-[#40bcf4] hover:underline font-semibold">
-                        {{ movie.director.name }}
-                    </a>
-                </p>
-            </div>
+                    <h1 class="text-4xl font-black text-white tracking-tight mt-2">{{ movie.title }}</h1>
+                    <p class="text-sm text-gray-400 mt-1">
+                        Directed by
+                        <a href="{% url 'director_detail' movie.director.pk %}"
+                           class="text-[#40bcf4] hover:underline font-semibold">
+                            {{ movie.director.name }}
+                        </a>
+                    </p>
+                </div>
 
-            <div class="bg-[#14181c] p-4 rounded-lg border border-gray-800 inline-flex flex-col gap-1">
-                <span class="text-[10px] text-gray-500 uppercase tracking-widest font-mono">Cineboxd Rating</span>
-                <div class="flex items-baseline gap-2">
-                    <span class="text-3xl font-black text-[#00e054] tracking-wider">{{ movie.rating_as_stars }}</span>
-                    <span class="text-lg text-gray-400 font-bold">({{ movie.rating }}/5.0)</span>
+                <div class="bg-[#14181c] p-4 rounded-lg border border-gray-800 inline-flex flex-col gap-1">
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest font-mono">MovieBox Rating</span>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-3xl font-black text-[#00e054] tracking-wider">{{ movie.rating_as_stars }}</span>
+                        <span class="text-lg text-gray-400 font-bold">({{ movie.rating }}/5.0)</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="p-8 bg-[#182027]/40 space-y-6">
-        <div>
-            <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Review & Thoughts</h3>
-            <div class="bg-[#14181c] border border-gray-800 rounded p-4 text-gray-300 whitespace-pre-line text-base leading-relaxed">
-                {{ movie.comment|default:"No thoughts logged for this film yet." }}
+        <div class="p-8 bg-[#182027]/40 space-y-6">
+            <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Review & Thoughts</h3>
+                <div class="bg-[#14181c] border border-gray-800 rounded p-4 text-gray-300 whitespace-pre-line text-base leading-relaxed">
+                    {{ movie.comment|default:"No thoughts logged for this film yet." }}
+                </div>
             </div>
-        </div>
+            {% if movie.trailer_url %}
+                <div class="mt-8 border-t border-gray-800/60 pt-6 flex items-center justify-between">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500">Official Trailer</h3>
 
-        <div class="flex justify-between items-center text-xs text-gray-500 font-mono border-t border-gray-800/60 pt-4">
-            <span>Released: {{ movie.release_date|default:"Unknown Date" }}</span>
-            <a href="{% url 'movie_list' %}" class="text-[#00e054] hover:underline font-bold uppercase">← Back to Movies</a>
-        </div>
-    </div>
+                    <a href="{{ movie.trailer_url }}" target="_blank"
+                       class="inline-flex items-center gap-2 bg-[#e52d27] hover:bg-red-600 text-white font-bold text-sm uppercase tracking-wider px-5 py-2.5 rounded transition-colors shadow-lg shadow-red-900/20">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                        </svg>
+                        Watch on YouTube
+                    </a>
+                </div>
+            {% endif %}
+            <div class="flex justify-between items-center text-xs text-gray-500 font-mono border-t border-gray-800/60 pt-4 mt-8">
 
-</div>
+                <div class="flex justify-between items-center text-xs text-gray-500 font-mono border-t border-gray-800/60 pt-4">
+                    <span>Released: {{ movie.release_date|default:"Unknown Date" }}</span>
+                    <div class="flex items-center gap-4">
+                        <a href="{% url 'movie_delete' movie.pk %}"
+                           class="text-red-500 hover:text-red-400 hover:underline font-bold uppercase transition-colors">Delete
+                            Movie</a>
+                        <span class="text-gray-700">|</span>
+                        <a href="{% url 'movie_list' %}" class="text-[#00e054] hover:underline font-bold uppercase">←
+                            Back to Movies</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 {% endblock %}

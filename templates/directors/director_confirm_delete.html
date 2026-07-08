@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-xl mx-auto mt-16 bg-[#1c252d] border border-red-900/50 rounded-lg p-8 shadow-2xl text-center">
+    
+    <div class="w-16 h-16 bg-red-950/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-900">
+        <span class="text-red-500 text-2xl font-bold">!</span>
+    </div>
+
+    <h1 class="text-2xl font-bold text-white mb-2">Delete {{ director.name }}?</h1>
+    
+    <div class="bg-red-950/30 border border-red-900/50 rounded p-4 mb-8 inline-block text-left">
+        <p class="text-red-400 text-sm font-bold uppercase tracking-wider mb-1">Warning: Cascade Deletion</p>
+        <p class="text-gray-400 text-sm">Deleting this director will also permanently destroy <b>all of their movies</b> connected to your database. This action is absolute.</p>
+    </div>
+
+    <form method="POST" class="flex justify-center gap-4">
+        {% csrf_token %}
+        <a href="{% url 'director_detail' director.pk %}" class="px-6 py-2.5 rounded bg-[#2c3440] hover:bg-[#384351] text-white font-bold text-sm uppercase tracking-wider transition-colors">
+            Cancel
+        </a>
+        <button type="submit" class="px-6 py-2.5 rounded bg-red-600 hover:bg-red-500 text-white font-bold text-sm uppercase tracking-wider shadow-lg shadow-red-900/20 transition-colors">
+            Confirm Deletion
+        </button>
+    </form>
+</div>
+{% endblock %}

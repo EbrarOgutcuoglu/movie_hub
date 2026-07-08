@@ -1,60 +1,80 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
-    <div>
-        <h1 class="text-2xl font-bold text-white tracking-tight">Popular Movies</h1>
-        <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">フィルム • Managed by Django</p>
+    <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
+        <div>
+            <h1 class="text-2xl font-bold text-white tracking-tight">Popular Movies</h1>
+        </div>
+        <div class="flex items-center gap-4">
+
+            <form method="GET" action="{% url 'movie_list' %}" class="m-0">
+                <select name="director" onchange="this.form.submit()"
+                        class="bg-[#14181c] text-sm text-gray-300 border border-gray-700 rounded px-3 py-2.5 focus:outline-none focus:border-[#00e054] cursor-pointer hover:border-gray-500 transition-colors">
+                    <option value="">All Directors</option>
+                    {% for director in directors %}
+                        <option value="{{ director.id }}"
+                                {% if selected_director == director.id|stringformat:"s" %}selected{% endif %}>
+                            {{ director.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+
+            <a href="{% url 'movie_create' %}"
+               class="bg-[#ff8000] hover:bg-[#ff9426] text-white font-bold text-sm uppercase tracking-wider px-5 py-2.5 rounded transition-colors shadow-lg shadow-orange-950/20">
+                + Add Movie
+            </a>
+        </div>
     </div>
-    <a href="{% url 'movie_create' %}" class="bg-[#ff8000] hover:bg-[#ff9426] text-white font-bold text-sm uppercase tracking-wider px-5 py-2.5 rounded transition-colors shadow-lg shadow-orange-950/20">
-        + Add Movie
-    </a>
-</div>
 
-{% if movies %}
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        {% for movie in movies %}
-            <div class="bg-[#1c252d] rounded-lg overflow-hidden border border-gray-800 shadow-xl group hover:border-gray-700 transition-all flex flex-col justify-between">
+    {% if movies %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {% for movie in movies %}
+                <div class="bg-[#1c252d] rounded-lg overflow-hidden border border-gray-800 shadow-xl group hover:border-gray-700 transition-all flex flex-col justify-between">
 
-                <div>
-                    <a href="{% url 'movie_detail' movie.pk %}" class="block relative aspect-[2/3] w-full bg-slate-950 overflow-hidden">
-                        <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                    </a>
+                    <div>
+                        <a href="{% url 'movie_detail' movie.pk %}"
+                           class="block relative aspect-[2/3] w-full bg-slate-950 overflow-hidden">
+                            <img src="{{ movie.poster_url }}" alt="{{ movie.title }}"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        </a>
 
-                    <div class="p-4">
-                        <h2 class="text-white font-bold text-lg leading-tight group-hover:text-[#00e054] transition-colors mb-1">
-                            <a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a>
-                        </h2>
-                        <p class="text-xs text-gray-400 mb-2">
-                            by
-                            <a href="{% url 'director_detail' movie.director.pk %}" class="hover:text-[#40bcf4] underline decoration-dotted">
-                                {{ movie.director.name }}
-                            </a>
-                        </p>
-                        <span class="inline-block bg-slate-900 text-gray-400 text-[10px] uppercase tracking-widest px-2.5 py-1 rounded border border-gray-800 font-mono mb-3">
+                        <div class="p-4">
+                            <h2 class="text-white font-bold text-lg leading-tight group-hover:text-[#00e054] transition-colors mb-1">
+                                <a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a>
+                            </h2>
+                            <p class="text-xs text-gray-400 mb-2">
+                                by
+                                <a href="{% url 'director_detail' movie.director.pk %}"
+                                   class="hover:text-[#40bcf4] underline decoration-dotted">
+                                    {{ movie.director.name }}
+                                </a>
+                            </p>
+                            <span class="inline-block bg-slate-900 text-gray-400 text-[10px] uppercase tracking-widest px-2.5 py-1 rounded border border-gray-800 font-mono mb-3">
                             {{ movie.genre }}
                         </span>
-                        <p class="text-sm text-gray-400 line-clamp-3">
-                            {{ movie.comment }}
-                        </p>
+                            <p class="text-sm text-gray-400 line-clamp-3">
+                                {{ movie.comment }}
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="p-4 pt-0 border-t border-gray-800/50 mt-auto flex justify-between items-center bg-[#182027]">
-                    <span class="text-xs text-gray-500 uppercase font-mono">Rating</span>
-                    <div class="flex items-center gap-1.5 bg-[#14181c] px-2 py-1 rounded text-sm font-bold text-[#00e054] tracking-wide">
-                        <span>{{ movie.rating_as_stars }}</span>
-                        <span class="text-xs text-gray-500 font-normal">({{ movie.rating }})</span>
+                    <div class="p-4 pt-0 border-t border-gray-800/50 mt-auto flex justify-between items-center bg-[#182027]">
+                        <span class="text-xs text-gray-500 uppercase font-mono">Rating</span>
+                        <div class="flex items-center gap-1.5 bg-[#14181c] px-2 py-1 rounded text-sm font-bold text-[#00e054] tracking-wide">
+                            <span>{{ movie.rating_as_stars }}</span>
+                            <span class="text-xs text-gray-500 font-normal">({{ movie.rating }})</span>
+                        </div>
                     </div>
-                </div>
 
-            </div>
-        {% endfor %}
-    </div>
-{% else %}
-    <div class="text-center py-16 bg-[#1c252d] rounded-lg border border-gray-800 border-dashed">
-        <p class="text-gray-500 mb-4">No movies inside the vault yet.</p>
-        <a href="{% url 'movie_create' %}" class="text-[#00e054] hover:underline text-sm font-semibold">Be the first to log a movie →</a>
-    </div>
-{% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-16 bg-[#1c252d] rounded-lg border border-gray-800 border-dashed">
+            <p class="text-gray-500 mb-4">No movies inside the vault yet.</p>
+            <a href="{% url 'movie_create' %}" class="text-[#00e054] hover:underline text-sm font-semibold">Be the first
+                to log a movie →</a>
+        </div>
+    {% endif %}
 {% endblock %}
