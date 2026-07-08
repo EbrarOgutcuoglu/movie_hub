@@ -5,11 +5,16 @@ from .models import Movie
 class MovieForm(forms.ModelForm):
     # Defining specific choice scores to display as stylized bubbles or stars
     RATING_CHOICES = [
-        (1.0, '★ (1.0)'),
-        (2.0, '★★ (2.0)'),
-        (3.0, '★★★ (3.0)'),
-        (4.0, '★★★★ (4.0)'),
-        (5.0, '★★★★★ (5.0)'),
+        (0.5, '½ '),
+        (1.0, '★ '),
+        (1.5, '★½ '),
+        (2.0, '★★ '),
+        (2.5, '★★½ '),
+        (3.0, '★★★ '),
+        (3.5, '★★★½ '),
+        (4.0, '★★★★ '),
+        (4.5, '★★★★½ '),
+        (5.0, '★★★★★ '),
     ]
 
     rating = forms.ChoiceField(
@@ -19,14 +24,34 @@ class MovieForm(forms.ModelForm):
         help_text="Select a bubble score or type it manually below."
     )
 
+    GENRE_CHOICES = [
+        ('', 'Select a Genre'),
+        ('Action', 'Action'),
+        ('Adventure', 'Adventure'),
+        ('Animation', 'Animation'),
+        ('Comedy', 'Comedy'),
+        ('Drama', 'Drama'),
+        ('Horror', 'Horror'),
+        ('Romance', 'Romance'),
+        ('Sci-Fi', 'Sci-Fi'),
+        ('Thriller', 'Thriller'),
+        ('Western', 'Western'),
+
+        ('Documentary', 'Documentary'),
+    ]
+    genre = forms.ChoiceField(
+        choices=GENRE_CHOICES,
+        widget=forms.Select(attrs={
+            'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]'})
+    )
+
     class Meta:
         model = Movie
-        fields = ['title', 'director', 'description', 'genre', 'rating', 'poster_url', 'release_date']
+        fields = ['title', 'director', 'comment', 'genre', 'rating', 'poster_url', 'release_date']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]'}),
             'director': forms.Select(attrs={'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]'}),
-            'description': forms.Textarea(attrs={'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]', 'rows': 4}),
-            'genre': forms.TextInput(attrs={'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]', 'placeholder': 'e.g. Sci-Fi, Drama'}),
+            'comment': forms.Textarea(attrs={'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]', 'rows': 4}),
             'poster_url': forms.URLInput(attrs={'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]'}),
             'release_date': forms.DateInput(attrs={'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]', 'type': 'date'}),
         }

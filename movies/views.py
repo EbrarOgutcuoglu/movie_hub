@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Movie
 from .form import MovieForm
 
@@ -15,3 +15,7 @@ def movie_create(request):
     else:
         form = MovieForm()
     return render(request, 'movies/movie_form.html', {'form': form})
+
+def movie_detail(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
+    return render(request, 'movies/movie_detail.html', {'movie': movie})
