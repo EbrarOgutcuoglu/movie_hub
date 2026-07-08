@@ -7,7 +7,8 @@ def movie_list(request):
     movies = Movie.objects.all().order_by('-id') # Newest first
     directors = Director.objects.all().order_by('name')
     selected_director = request.GET.get('director')
-
+    print("abc")
+    print(selected_director)
 
     if selected_director:
         movies = movies.filter(director_id=selected_director)
