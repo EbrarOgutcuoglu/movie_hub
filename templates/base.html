@@ -1,0 +1,49 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letterboxd Hub</title>
+    <!-- Tailwind CSS for custom Letterboxd color palette styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#14181c] text-[#9ab] min-h-screen flex flex-col font-sans antialiased">
+
+    <!-- Header Navigation -->
+    <header class="bg-[#1c252d] border-b border-gray-800 shadow-xl">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+            <!-- Logo area using the characteristic tri-color border motif implicitly -->
+            <a href="/movies/" class="text-2xl font-black tracking-tighter text-white flex items-center gap-1 hover:opacity-90 transition-opacity">
+                <span class="text-[#ff8000]">●</span><span class="text-[#ff8000]">●</span><span class="text-[#ff8000]">●</span>
+                <span class="ml-2 font-mono tracking-normal text-xl">MovieBox</span>
+            </a>
+
+            <!-- Two Nav Bars Selection (Movies vs Directors) -->
+            <nav class="flex space-x-1 text-sm font-bold uppercase tracking-wider">
+                <a href="/movies/" class="py-2 px-4 rounded text-gray-300 hover:text-[#00e054] hover:bg-slate-800/50 transition-all">
+                    🎬 Movies
+                </a>
+                <a href="/directors/" class="py-2 px-4 rounded text-gray-300 hover:text-[#40bcf4] hover:bg-slate-800/50 transition-all">
+                    👤 Directors
+                </a>
+            </nav>
+
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-6 py-8">
+        {% block content %}
+        <!-- Content will dynamic inject here -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#14181c] text-center py-8 text-xs text-gray-600 tracking-wider uppercase border-t border-gray-800/50">
+        <p>Made for film lovers.</p>
+    </footer>
+
+</body>
+</html>

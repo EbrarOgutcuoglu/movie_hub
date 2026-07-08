@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
+    <div>
+        <h1 class="text-2xl font-bold text-white tracking-tight">Popular Movies</h1>
+    </div>
+    <a href="{% url 'movie_create' %}" class="bg-[#ff8000] hover:bg-[#ff9426] text-white font-bold text-sm uppercase tracking-wider px-5 py-2.5 rounded transition-colors shadow-lg shadow-orange-950/20">
+        + Add Movie
+    </a>
+</div>
+
+{% if movies %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        {% for movie in movies %}
+            <div class="bg-[#1c252d] rounded-lg overflow-hidden border border-gray-800 shadow-xl group hover:border-gray-700 transition-all flex flex-col justify-between">
+                
+                <div>
+                    <div class="relative aspect-[2/3] w-full bg-slate-950 overflow-hidden">
+                        <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    
+                    <div class="p-4">
+                        <h2 class="text-white font-bold text-lg leading-tight group-hover:text-[#00e054] transition-colors mb-1">
+                            {{ movie.title }}
+                        </h2>
+                        <p class="text-xs text-gray-400 mb-2">
+                            by <span class="hover:text-[#40bcf4] underline decoration-dotted">{{ movie.director.name }}</span>
+                        </p>
+                        <span class="inline-block bg-slate-900 text-gray-400 text-[10px] uppercase tracking-widest px-2.5 py-1 rounded border border-gray-800 font-mono mb-3">
+                            {{ movie.genre }}
+                        </span>
+                        <p class="text-sm text-gray-400 line-clamp-3">
+                            {{ movie.description }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="p-4 pt-0 border-t border-gray-800/50 mt-auto flex justify-between items-center bg-[#182027]">
+                    <span class="text-xs text-gray-500 uppercase font-mono">Rating</span>
+                    <div class="flex items-center gap-1.5 bg-[#14181c] px-2 py-1 rounded text-xs font-bold text-[#00e054]">
+                        <span>★</span> {{ movie.rating }} / 5.0
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center py-16 bg-[#1c252d] rounded-lg border border-gray-800 border-dashed">
+        <p class="text-gray-500 mb-4">No movies inside the vault yet.</p>
+        <a href="{% url 'movie_create' %}" class="text-[#00e054] hover:underline text-sm font-semibold">Be the first to log a movie →</a>
+    </div>
+{% endif %}
+{% endblock %}

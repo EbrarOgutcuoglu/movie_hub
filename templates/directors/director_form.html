@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-[#1c252d] border border-gray-800 rounded-lg p-8 shadow-2xl">
+    
+    <div class="mb-6 border-b border-gray-800 pb-4">
+        <h1 class="text-2xl font-bold text-white tracking-tight">Create Director Profile</h1>
+        <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">Add director records to align with film releases</p>
+    </div>
+
+    <form method="POST" class="space-y-6">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+            </div>
+        {% endfor %}
+
+        <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-800">
+            <a href="{% url 'director_list' %}" class="text-sm text-gray-400 hover:text-white transition-colors">Cancel</a>
+            <button type="submit" class="bg-[#40bcf4] hover:bg-[#2cb2f2] text-slate-950 font-bold uppercase tracking-wider text-sm px-6 py-3 rounded transition-colors">
+                Save Profile
+            </button>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
+    <div>
+        <h1 class="text-2xl font-bold text-white tracking-tight">Visionary Directors</h1>
+    </div>
+    <a href="{% url 'director_create' %}" class="bg-[#ff8000] hover:bg-[#ff9426] text-white font-bold text-sm uppercase tracking-wider px-5 py-2.5 rounded transition-colors shadow-lg">
+        + Add Director
+    </a>
+</div>
+
+{% if directors %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for director in directors %}
+            <div class="bg-[#1c252d] rounded-lg border border-gray-800 p-6 flex gap-4 hover:border-gray-700 transition-all shadow-xl group">
+                
+                <div class="w-20 h-20 rounded-full overflow-hidden bg-slate-950 border border-gray-700 flex-shrink-0">
+                    <img src="{{ director.image_url }}" alt="{{ director.name }}" class="w-full h-full object-cover">
+                </div>
+
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-white font-bold text-lg group-hover:text-[#40bcf4] transition-colors leading-tight">
+                            {{ director.name }}
+                        </h2>
+                        <p class="text-[11px] font-mono text-gray-500 mt-0.5">Born: {{ director.birth_date|default:"Unknown" }}</p>
+                        <p class="text-sm text-gray-400 mt-2 line-clamp-2">
+                            {{ director.bio|default:"No biography written yet." }}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center py-16 bg-[#1c252d] rounded-lg border border-gray-800 border-dashed">
+        <p class="text-gray-500 mb-4">No directors added yet.</p>
+        <a href="{% url 'director_create' %}" class="text-[#40bcf4] hover:underline text-sm font-semibold">Add a director database record →</a>
+    </div>
+{% endif %}
+{% endblock %}

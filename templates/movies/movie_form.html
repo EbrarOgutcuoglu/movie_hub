@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-[#1c252d] border border-gray-800 rounded-lg p-8 shadow-2xl">
+    
+    <div class="mb-6 border-b border-gray-800 pb-4">
+        <h1 class="text-2xl font-bold text-white tracking-tight">Log a New Movie</h1>
+        <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">Fill the cinematic data fields below</p>
+    </div>
+
+    <form method="POST" class="space-y-6">
+        {% csrf_token %}
+
+        {% for field in form %}
+            {% if field.name != 'rating' %}
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <p class="text-[11px] text-gray-500 mt-1">{{ field.help_text }}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">
+                Select Movie Score (Bubble Choice)
+            </label>
+            
+            <style>
+                /* Beautifully hide standard radio input circles and style the bubbles */
+                .bubble-container input[type="radio"] {
+                    accent-color: #00e054;
+                    transform: scale(1.2);
+                    cursor: pointer;
+                }
+                .bubble-item:hover {
+                    border-color: #00e054;
+                    background-color: #242c37;
+                }
+            </style>
+
+            <div class="bubble-container grid grid-cols-2 sm:grid-cols-5 gap-3">
+                {% for radio in form.rating %}
+                    <label class="bubble-item flex items-center justify-between gap-3 bg-[#2c3440] border border-gray-700 rounded-lg p-3 cursor-pointer transition-all">
+                        <span class="text-sm font-semibold text-white">{{ radio.choice_label }}</span>
+                        {{ radio.tag }}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-800">
+            <a href="{% url 'movie_list' %}" class="text-sm text-gray-400 hover:text-white transition-colors">Cancel</a>
+            <button type="submit" class="bg-[#00e054] hover:bg-[#00c84b] text-slate-950 font-bold uppercase tracking-wider text-sm px-6 py-3 rounded transition-colors">
+                Save Movie
+            </button>
+        </div>
+
+    </form>
+</div>
+{% endblock %}
