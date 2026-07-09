@@ -11,9 +11,9 @@
 
             <div class="flex-grow space-y-4">
                 <div>
-                <span class="text-xs bg-slate-900 text-gray-400 px-2.5 py-1 rounded border border-gray-800 font-mono uppercase tracking-widest">
-                    {{ movie.genre }}
-                </span>
+                    <span class="text-xs bg-slate-900 text-gray-400 px-2.5 py-1 rounded border border-gray-800 font-mono uppercase tracking-widest">
+                        {{ movie.genre }}
+                    </span>
                     <h1 class="text-4xl font-black text-white tracking-tight mt-2">{{ movie.title }}</h1>
                     <p class="text-sm text-gray-400 mt-1">
                         Directed by
@@ -41,6 +41,20 @@
                     {{ movie.comment|default:"No thoughts logged for this film yet." }}
                 </div>
             </div>
+
+            <div class="border-t border-gray-800/60 pt-6">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">Cast</h3>
+                <div class="flex flex-wrap gap-2">
+                    {% for actor in movie.actors.all %}
+                        <span class="bg-[#14181c] border border-gray-800 text-[#00e054] px-3 py-1.5 rounded text-sm font-semibold hover:border-gray-700 transition-colors">
+                            {{ actor.name }}
+                        </span>
+                    {% empty %}
+                        <span class="text-gray-500 text-sm italic">No actors listed for this movie yet.</span>
+                    {% endfor %}
+                </div>
+            </div>
+
             {% if movie.trailer_url %}
                 <div class="mt-8 border-t border-gray-800/60 pt-6 flex items-center justify-between">
                     <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500">Official Trailer</h3>
@@ -54,20 +68,19 @@
                     </a>
                 </div>
             {% endif %}
-            <div class="flex justify-between items-center text-xs text-gray-500 font-mono border-t border-gray-800/60 pt-4 mt-8">
 
-                <div class="flex justify-between items-center text-xs text-gray-500 font-mono border-t border-gray-800/60 pt-4">
-                    <span>Released: {{ movie.release_date|default:"Unknown Date" }}</span>
-                    <div class="flex items-center gap-4">
-                        <a href="{% url 'movie_delete' movie.pk %}"
-                           class="text-red-500 hover:text-red-400 hover:underline font-bold uppercase transition-colors">Delete
-                            Movie</a>
-                        <span class="text-gray-700">|</span>
-                        <a href="{% url 'movie_list' %}" class="text-[#00e054] hover:underline font-bold uppercase">←
-                            Back to Movies</a>
-                    </div>
+            <div class="flex justify-between items-center text-xs text-gray-500 font-mono border-t border-gray-800/60 pt-4 mt-8">
+                <span>Released: {{ movie.release_date|default:"Unknown Date" }}</span>
+                <div class="flex items-center gap-4">
+                    <a href="{% url 'movie_delete' movie.pk %}"
+                       class="text-red-500 hover:text-red-400 hover:underline font-bold uppercase transition-colors">Delete Movie</a>
+                    <a href="{% url 'movie_update' movie.pk %}"
+                       class="text-blue-500 hover:text-blue-400 hover:underline font-bold uppercase transition-colors">Edit Movie</a>
+                    <span class="text-gray-700">|</span>
+                    <a href="{% url 'movie_list' %}" class="text-[#00e054] hover:underline font-bold uppercase">← Back to Movies</a>
                 </div>
             </div>
 
         </div>
+    </div>
 {% endblock %}

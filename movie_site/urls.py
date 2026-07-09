@@ -23,5 +23,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('movies/', include('movies.urls')),
     path('directors/', include('directors.urls')),
-    path('', lambda request: redirect('movies/', permanent=False)), # Redirect root to movies
+    path('actors/', include('actor.urls')),
+    path('', lambda request: redirect('movies/', permanent=False)),  # Redirect root to movies
 ]

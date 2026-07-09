@@ -23,7 +23,10 @@ def movie_create(request):
     if request.method == 'POST':
         form = MovieForm(request.POST)
         if form.is_valid():
-            form.save()
+            movie = form.save(commit=False)
+            movie.save()
+
+            form.save_m2m()
             return redirect('movie_list')
     else:
         form = MovieForm()
@@ -39,3 +42,24 @@ def movie_delete(request, pk):
         movie.delete()
         return redirect('movie_list')
     return render(request, 'movies/movie_confirm_delete.html', {'movie': movie})
+
+
+def movie_update(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
+    if request.method == 'POST':
+        # DİKKAT 1: request.FILES eklendi (Afişlerin bozulmaması için)
+        form = MovieForm(request.POST, request.FILES, instance=movie)
+
+        # DİKKAT 2: Tarayıcının gönderdiği veriyi terminale yazdırıyoruz
+        print("TARAYICIDAN GELEN VERİLER:", request.POST)
+
+        if form.is_valid():
+            movie = form.save(commit=False)
+            movie.save()
+            form.save_m2m()
+            return redirect('movie_detail', pk=movie.pk)
+        else:
+            print("FORM HATALARI:", form.errors)  # Eğer form arka planda patlıyorsa görelim
+    else:
+        form = MovieForm(instance=movie)
+    return render(request, 'movies/movie_form.html', {'form': form, 'title': 'Edit Movie'})

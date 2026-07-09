@@ -47,10 +47,11 @@ class MovieForm(forms.ModelForm):
 
     class Meta:
         model = Movie
-        fields = ['title', 'director', 'comment', 'genre', 'rating', 'poster_url', 'release_date', 'trailer_url']
+        fields = ['title', 'director','actor', 'comment', 'genre', 'rating', 'poster_url', 'release_date', 'trailer_url']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]'}),
             'director': forms.Select(attrs={'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]'}),
+            'actor': forms.CheckboxSelectMultiple(attrs={'class': 'text-white bg-[#14181c]'}),
             'comment': forms.Textarea(attrs={'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]', 'rows': 4}),
             'poster_url': forms.URLInput(attrs={'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]'}),
             'trailer_url': forms.URLInput(attrs={'class': 'w-full bg-[#2c3440] border border-gray-700 rounded p-2.5 text-white focus:outline-none focus:border-[#00e054]','placeholder': 'https://www.youtube.com/embed/...'  }),

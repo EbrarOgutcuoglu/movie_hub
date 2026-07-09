@@ -1,9 +1,11 @@
 from django.db import models
 from directors.models import Director
+from actor.models import Actor
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)
     director = models.ForeignKey(Director, on_delete=models.CASCADE, related_name='movies')
+    actor = models.ManyToManyField(Actor, related_name='movies', blank=True)
     comment = models.TextField(blank=True, null=True)
     genre = models.CharField(max_length=100)  # Ready for future grouping/filtering
     rating = models.FloatField(default=0.0)
@@ -11,6 +13,7 @@ class Movie(models.Model):
     release_date = models.DateField(blank=True, null=True)
     trailer_url = models.URLField(max_length=500, blank=True, null=True,
                                   help_text="YouTube Embed URL (ex: https://www.youtube.com/embed/...)")
+
 
     def save(self, *args, **kwargs):
         if self.trailer_url:

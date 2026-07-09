@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-md mx-auto my-10 bg-[#1a232a] p-8 rounded-lg shadow-xl border border-gray-800 text-center text-white">
+    <h2 class="text-2xl font-bold mb-4 text-red-500">Delete Actor</h2>
+    <p class="text-gray-300 mb-6">Are you sure you want to permanently delete <strong class="text-white">"{{ actor.name }}"</strong>? This action cannot be undone.</p>
+
+    <form method="POST" class="flex gap-4 justify-center">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-600 text-white px-6 py-3 rounded font-bold hover:bg-red-700 transition flex-1">
+            Yes, Delete
+        </button>
+        <a href="{% url 'actor_detail' actor.pk %}" class="bg-gray-700 text-white px-6 py-3 rounded font-bold hover:bg-gray-600 transition flex-1">
+            Cancel
+        </a>
+    </form>
+</div>
+{% endblock %}
